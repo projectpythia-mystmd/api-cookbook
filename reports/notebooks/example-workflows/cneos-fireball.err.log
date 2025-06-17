@@ -1,0 +1,87 @@
+Traceback (most recent call last):
+  File "/home/runner/micromamba/envs/api-cookbook-dev/lib/python3.13/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/runner/micromamba/envs/api-cookbook-dev/lib/python3.13/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+    ~~~~~~~~~^
+        nb,
+        ^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/home/runner/micromamba/envs/api-cookbook-dev/lib/python3.13/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/runner/micromamba/envs/api-cookbook-dev/lib/python3.13/site-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/home/runner/micromamba/envs/api-cookbook-dev/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/home/runner/micromamba/envs/api-cookbook-dev/lib/python3.13/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+        cell, index, execution_count=self.code_cells_executed + 1
+    )
+  File "/home/runner/micromamba/envs/api-cookbook-dev/lib/python3.13/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/runner/micromamba/envs/api-cookbook-dev/lib/python3.13/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# retrieve world map from GeoPandas
+world_map = geopandas.read_file(geopandas.datasets.get_path("naturalearth_lowres"))
+
+# Set up world map plot
+fig, ax = plt.subplots(figsize=(15, 10))
+world_map.plot(color="grey", ax=ax)
+
+# Plot Fireball Locations with Energy
+x = fireball_df["longitude"]
+y = fireball_df["latitude"]
+z = fireball_df["energy"]
+plt.scatter(x, y, s=5*z, c=z, cmap="autumn")
+plt.colorbar(label="Approximate Total Radiated Energy (10^10 Joules)")
+
+# Setup Axis Limits and Title/Labels
+plt.xlim([-180, 180])
+plt.ylim([-90, 90])
+plt.title("Energy of Fireball Observations")
+plt.xlabel("Longitude (Degrees)")
+plt.ylabel("Latitude (Degrees)")
+plt.show()
+------------------
+
+
+[31m---------------------------------------------------------------------------[39m
+[31mAttributeError[39m                            Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[8][39m[32m, line 2[39m
+[32m      1[39m [38;5;66;03m# retrieve world map from GeoPandas[39;00m
+[32m----> [39m[32m2[39m world_map = geopandas.read_file([43mgeopandas[49m[43m.[49m[43mdatasets[49m[43m.[49m[43mget_path[49m[43m([49m[33;43m"[39;49m[33;43mnaturalearth_lowres[39;49m[33;43m"[39;49m[43m)[49m)
+[32m      4[39m [38;5;66;03m# Set up world map plot[39;00m
+[32m      5[39m fig, ax = plt.subplots(figsize=([32m15[39m, [32m10[39m))
+
+[36mFile [39m[32m~/micromamba/envs/api-cookbook-dev/lib/python3.13/site-packages/geopandas/datasets/__init__.py:18[39m, in [36mget_path[39m[34m(dataset)[39m
+[32m     12[39m error_msg = (
+[32m     13[39m     [33m"[39m[33mThe geopandas.dataset has been deprecated and was removed in GeoPandas [39m[33m"[39m
+[32m     14[39m     [33mf[39m[33m"[39m[33m1.0. You can get the original [39m[33m'[39m[38;5;132;01m{[39;00mdataset[38;5;132;01m}[39;00m[33m'[39m[33m data from [39m[33m"[39m
+[32m     15[39m     [33mf[39m[33m"[39m[38;5;132;01m{[39;00mne_message[38;5;250m [39m[38;5;28;01mif[39;00m[38;5;250m [39m[33m'[39m[33mnatural[39m[33m'[39m[38;5;250m [39m[38;5;129;01min[39;00m[38;5;250m [39mdataset[38;5;250m [39m[38;5;28;01melse[39;00m[38;5;250m [39mnybb_message[38;5;132;01m}[39;00m[33m"[39m
+[32m     16[39m )
+[32m     17[39m [38;5;28;01mif[39;00m dataset [38;5;129;01min[39;00m _prev_available:
+[32m---> [39m[32m18[39m     [38;5;28;01mraise[39;00m [38;5;167;01mAttributeError[39;00m(error_msg)
+[32m     19[39m [38;5;28;01melse[39;00m:
+[32m     20[39m     error_msg = (
+[32m     21[39m         [33m"[39m[33mThe geopandas.dataset has been deprecated and [39m[33m"[39m
+[32m     22[39m         [33m"[39m[33mwas removed in GeoPandas 1.0. New sample datasets are now available [39m[33m"[39m
+[32m     23[39m         [33m"[39m[33min the geodatasets package (https://geodatasets.readthedocs.io/en/latest/)[39m[33m"[39m
+[32m     24[39m     )
+
+[31mAttributeError[39m: The geopandas.dataset has been deprecated and was removed in GeoPandas 1.0. You can get the original 'naturalearth_lowres' data from https://www.naturalearthdata.com/downloads/110m-cultural-vectors/.
+
